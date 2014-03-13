@@ -28,8 +28,11 @@ def main_menu(game)
   current_move = gets.chomp
   if current_move == 'q'
     exit
-  else
+  elsif current_move == /\d/
     move = interpret_move(game, current_move.to_i)
+  else
+    puts "Not a valid input. Pay more attention, you fool."
+    main_menu
   end
 end
 
@@ -41,17 +44,56 @@ end
 
 def check_move(game,move)
   if game.game_board.make_move?(game.current_player.symbol,move[0],move[1])
+    game.switch_turn
     if game.game_complete == false
-      game.switch_turn
       main_menu(game)
     else
       game_result = game.game_complete
       result_screen(game_result)
     end
+  else
+    puts "\n\nIllegal move, you fool!\n\n"
+    main_menu(game)
   end
 end
 
 def result_screen(game_result)
+  if game_result == "Cat's Game"
+    puts "
+                 ________________
+                |                |_____    __
+                |  Cat's Game!   |     |__|  |_________
+                |________________|     |::|  |        /
+   /\\ **/\\      |                 \\____|::|__|      <
+  ( o_o  )_     |                      \\::/   \\_______\\
+   (u--u    _)  |
+    (||___   )==\\
+  ,dP'/b/=( /P'/b\\
+  |8 || 8 === || 8
+  `b,  ,P  `b,  ,P
+    '''`     '''`"
+  else
+    puts "
+                .   '  '    .
+                )\\_/|_/|__  /
+              .-'        /_/(      #{game_result}!!
+             '  .-'`'-.   /_(
+            /  (   o   ) /___(
+           /u   '-._.-'  \\ _(/
+          ^--------^-^-)  )  \\_     /|
+          \\ ____________       '-._.)\\
+            (,(,(,(________)_____..---'
+    "
+  end
+  puts "\n\n\nPlay Again? Enter 'y' or 'n'"
+  choice = gets.chomp
+  if choice == 'y'
+    puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    start_game
+  else
+    quit
+  end
 end
 
 start_game
+

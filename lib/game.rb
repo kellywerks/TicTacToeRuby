@@ -38,10 +38,14 @@ class Game
   end
 
   def game_complete
-    if @counter == 8
+    if @counter == 9
       @game_result = "Cat's Game"
     elsif game_board.game_over_check == true
-      @game_result = "Winner: #{game_board.winner}"
+      if @player_one.symbol == game_board.winner
+        @game_result = "Winner: #{@player_one.name}"
+      else
+        @game_result = "Winner: #{@player_two.name}"
+      end
     else
       @game_result = false
     end
